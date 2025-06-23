@@ -1,0 +1,46 @@
+data_path: /home/rudra/Spectro/downloaded/data/final_data/random_molecules_700000.json
+save_path: /home/rudra/Spectro/Spectro/gpt_custom/pretrained_encoder/run_1
+
+dataset:
+  max: 700000
+  train_size: 0.8
+  train: 
+    max: 560000
+    path: /home/rudra/Spectro/Spectro/gpt_custom/train_data.json
+  val:
+    max: 140000
+    path: /home/rudra/Spectro/Spectro/gpt_custom/val_data.json
+
+model:
+  max_length: 256
+
+  transformer:
+    d_model: 384
+    nhead: 4
+    num_encoder_layers: 3
+    num_decoder_layers: 3
+    dim_feedforward: 1024
+    dropout: 0.1
+    max_seq_length: 512
+
+  pretrained_encoder_path: "/home/rudra/Spectro/Spectro/encoder_custom/run_1/40_nmr_encoder.pt"  # UPDATE THIS PATH
+  freeze_encoder: true          # Set to false if you want to fine-tune the encoder
+  encoder_d_model: 384          # Should match your pretrained encoder's d_model
+  max_length: 256
+
+
+training: 
+  accumulation_steps: 8
+  batch_size: 16
+  lr: 0.0001
+  epochs: 50
+  optimizer: 
+    weight_decay: 0.01
+  scheduler:
+    t_max: 10
+    eta_min: 0.000001
+
+hardware:
+  num_workers: 4
+  pin_memory: true
+  device: cuda
